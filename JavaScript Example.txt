@@ -1,0 +1,19 @@
+//There was a reoccurring error on the semi-finished machine of 3rd party software creating empty plan data with a spec but no planned amount or result ammount this was causing errors when the machine would try to change spec. After consulting the vendor and hearing that it would take a number of weeks to solve the problem I added this Java Script code to the MES project to allow users to delete this false plan data. 
+
+/* Added else if so that users can delete Finish / Current      */
+			 //Else if for Current if result and plan = 0
+			else if (dsList.getColumn(dsList.rowposition, "status") == "C" &&
+					utlf_getNullToZero(dsList.getColumn(dsList.rowposition, "resultCnt")) == 0 &&
+					 utlf_getNullToZero(dsList.getColumn(dsList.rowposition, "planCnt")) == 0
+					 )
+				{
+					this.dtsf_deleteRow(dsList);
+				}
+				//Else if for finished if result and plan = 0
+				else if (dsList.getColumn(dsList.rowposition, "status") == "F" &&
+					utlf_getNullToZero(dsList.getColumn(dsList.rowposition, "resultCnt")) == 0 &&
+					 utlf_getNullToZero(dsList.getColumn(dsList.rowposition, "planCnt")) == 0
+					 )
+				{
+					this.dtsf_deleteRow(dsList);
+				}

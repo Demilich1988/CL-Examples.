@@ -1,0 +1,53 @@
+// Java Code for screen that  displays different user that recieve that text messages.
+
+//Calls Data to display on Screen. 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/kva/VAD0010Controller/getVAD0010.action")
+	public ModelAndView getVAD0010(HashMap dto) throws Exception {
+
+		ModelAndView mav = new ModelAndView("ktgProjectView");
+
+		HashMap dsMap = new HashMap();
+		List list = vad0010Service.getVAD0010(dto);
+		dsMap.put("dsOutput", list);
+
+		mav.addObject(XpfConstant.OUT_DATASET_ATT_NAME, dsMap);
+		mav.addObject(XpfConstant.ERROR_CODE, "0");
+		mav.addObject(XpfConstant.ERROR_MSG, "");
+
+		return mav;
+	}
+
+	//Saves Data to Database
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/kva/VAD0010Controller/saveVAD0010.action")
+	public ModelAndView saveVAD0010(HashMap dto) throws Exception {
+
+		ModelAndView mav = new ModelAndView("ktgProjectView");
+
+		List paraList = (List) dto.get("dsInput");
+
+		HashMap paraMap = new HashMap();
+		String cudFlg = "";
+
+		for (int i = 0; i < paraList.size(); i++) {
+			paraMap = (HashMap) paraList.get(i);
+
+			cudFlg = paraMap.get("rowStatus").toString();
+
+			if ("U".equals(cudFlg)) {
+				vad0010Service.updateVAD0010(paraMap);
+			}
+			else if ("D".equals(cudFlg)) {
+				vad0010Service.deleteVAD0010(paraMap);
+			}
+			else if ("C".equals(cudFlg)) {
+				vad0010Service.insertVAD0010(paraMap);
+			}
+		}
+
+		mav.addObject(XpfConstant.ERROR_CODE, "0");
+		mav.addObject(XpfConstant.ERROR_MSG, "");
+
+		return mav;
+	}

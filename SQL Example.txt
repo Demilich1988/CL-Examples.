@@ -1,0 +1,37 @@
+//SQL Code for the backend Java Example. 
+
+<select id="getVAD0010" parameterType="java.util.HashMap" resultType="mesHashMap">
+			 SELECT A.USERID
+					, B.USERNM
+					, B.RETIYN
+					, WBAN
+					, DEPT
+					, RCVPHONE
+					, SNDPHONE
+					, SNDYN
+					, CUWT
+					, BUQT
+					, GCQT
+					, BDRATWT
+					, BDQT
+					, SUMQT
+					, PROC
+					, BADQTY
+					, JOB
+					, INIDNO
+					, INDATE
+					, KORSNDYN
+					, BUMCSNDYN
+			   FROM AGVA.VAD0010 A LEFT JOIN AGXA.XAA0300 B ON A.USERID = B.USERID
+			  WHERE 1 = 1
+				<if test="usernm != ''">
+				AND UPPER(B.USERNM) LIKE UPPER('%' || #{usernm} ||'%')
+				</if>
+				<if test="wban != ''">
+				AND WBAN = #{wban}
+				</if>
+				<if test="dept != ''">
+				AND DEPT = #{dept}
+				</if>
+			  ORDER BY B.USERNM, A.WBAN, A.DEPT
+	</select>
